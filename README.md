@@ -1,8 +1,8 @@
 # chat-multithread
 
-Equipe:João Edson,Valney Maia, Kelthon Balbino 
+Equipe: João Edson, Valney Maia, Kelthon Balbino 
 
-Chat Multithread com socket
+Chat Multithread com socket:
 
 Um servidor central (multithread) recebe as conexões e mensagens dos clientes.
 
