@@ -1,7 +1,7 @@
 import socket 
 import threading
 
-nickname = input("Escolha um nickname: ")  # Solicita ao usuário que insira um apelido
+nickname = input("Escolha um nickname: ")  # Solicita ao usuário que insira um nick
 
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # Cria um novo socket
 client.connect(('127.0.0.1', 55555))  # Conecta-se ao servidor
