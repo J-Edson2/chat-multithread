@@ -5,10 +5,10 @@ from datetime import datetime
 class Servidor:
     def __init__(self, host = '127.0.0.1', port = 55555):
         self.host = host  # O endereço IP do servidor
-        self.port = port  # A porta que o servidor irá escutar
+        self.port = port  # A porta que o servidor irá associar
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # Cria um novo socket
         self.server.bind((self.host, self.port))  # Vincula o socket ao endereço e porta especificados
-        self.server.listen()  # Coloca o servidor em modo de escuta para aceitar conexões de clientes
+        self.server.listen()  # Coloca o servidor em modo de "escuta" para aceitar conexões de clientes
         self.clients = []  # Uma lista para armazenar todos os clientes conectados
         self.nicknames = []  # Uma lista para armazenar os nicks dos clientes
 
