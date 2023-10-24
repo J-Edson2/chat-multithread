@@ -3,12 +3,12 @@ import socket
 from datetime import datetime
 
 class Servidor:
-    def __init__(self, host = '127.0.0.1', port = 55555):
+    def __init__(self, host = socket.gethostname(), port = 55555):
         self.host = host  # O endereço IP do servidor
-        self.port = port  # A porta que o servidor irá associar
+        self.port = port  # A porta que o servidor irá escutar
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # Cria um novo socket
         self.server.bind((self.host, self.port))  # Vincula o socket ao endereço e porta especificados
-        self.server.listen()  # Coloca o servidor em modo de "escuta" para aceitar conexões de clientes
+        self.server.listen()  # Coloca o servidor em modo de escuta para aceitar conexões de clientes
         self.clients = []  # Uma lista para armazenar todos os clientes conectados
         self.nicknames = []  # Uma lista para armazenar os nicks dos clientes
 
@@ -47,18 +47,19 @@ class Servidor:
             client, address = self.server.accept()  # Aceita uma nova conexão de um cliente
             print(f'Conectado com {str(address)}')  # Imprime o endereço IP do novo cliente
 
-            client.send('NICK'.encode('ascii'))  # Solicita ao novo cliente que envie seu nickname
-            nickname = client.recv(1024).decode('ascii')  # Recebe o nick do novo cliente
+            client.send('NICK'.encode('utf-8'))  # Solicita ao novo cliente que envie seu nickname
+            nickname = client.recv(1024).decode('utf-8')  # Recebe o nick do novo cliente
             self.nicknames.append(nickname)  # Adiciona o nick à lista de apelidos
             self.clients.append(client)  # Adiciona o novo cliente à lista de clientes
 
             print(f'Nickname do cliente é {nickname}!')  # Imprime o nickname do novo cliente no terminal do servidor
-            self.broadcast(f'{nickname} entrou no chat!'.encode('ascii')) # Informa aos outros clientes que um novo cliente entrou no chat 
-            client.send('Conectado ao servidor!'.encode('ascii'))  # Informa ao novo cliente que ele está conectado ao servidor
+            self.broadcast(f'{nickname} entrou no chat!'.encode('utf-8')) # Informa aos outros clientes que um novo cliente entrou no chat 
+            client.send('Conectado ao servidor!'.encode('utf-8'))  # Informa ao novo cliente que ele está conectado ao servidor
 
             thread = threading.Thread(target=self.handle, args=(client,))  # Cria um novo thread para lidar com a comunicação com este cliente
             thread.start()  # Inicia o novo thread
 
 if __name__ == "__main__":
+    print('Chat iniciado !')
     servidor = Servidor()  # Cria um novo objeto Servidor
     servidor.receive()  # Começa a aceitar conexões de novos clientes
