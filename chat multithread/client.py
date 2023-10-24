@@ -1,17 +1,18 @@
 import socket 
 import threading
 
+server_host = input("Escolha a rede: ")  # Solicita ao usuário que insira um nick
 nickname = input("Escolha um nickname: ")  # Solicita ao usuário que insira um nick
 
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # Cria um novo socket
-client.connect(('127.0.0.1', 55555))  # Conecta-se ao servidor
+client.connect((server_host, 55555))  # Conecta-se ao servidor
 
 def receive():
     while True:  # Loop infinito para receber mensagens do servidor
         try:
-            message = client.recv(1024).decode('utf-8')  # Recebe a mensagem do servidor
+            message = client.recv(1024).decode('utf-8') # Recebe a mensagem do servidor
             if message == 'NICK':  # Se a mensagem for 'NICK'
-                client.send(nickname.encode('ascii'))  # Envia o apelido para o servidor
+                client.send(nickname.encode('utf-8'))  # Envia o apelido para o servidor
             else:
                 print(message)  # Imprime a mensagem no terminal do cliente
         except:  # Se ocorrer um erro (por exemplo, se o servidor desconectar)
