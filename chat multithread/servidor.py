@@ -28,11 +28,11 @@ class Servidor:
                     self.nicknames.remove(nickname)  # Remove o nick da lista de apelidos
                     self.broadcast(f'{nickname} saiu do chat!'.encode('utf-8'))  # Informa aos outros clientes que este cliente saiu do chat
                     break
-                print(f'{datetime.now()} - {message}')  # Imprime a mensagem no terminal do servidor com a data e hora atuais
+                print(f'{message}')  # Imprime a mensagem no terminal do servidor
                 with open('registro.txt', 'a') as f:  # Abre o arquivo de registro em modo de anexação
-                    f.write(f'{datetime.now()} - {message}\n')  # Escreve a mensagem no arquivo de registro com a data e hora atuais
-                timestamped_message = f'{datetime.now()} - {message}'.encode('utf-8')  # Adiciona a data e hora à mensagem antes de enviá-la aos clientes
-                self.broadcast(timestamped_message)  # Envia a mensagem para todos os clientes conectados
+                    f.write(f'{message}\n')  # Escreve a mensagem no arquivo de registro com a data e hora atuais
+                timestamped_message = f'{datetime.now().strftime("%d/%m/%Y %H:%M:%S")} - {message}'.encode('utf-8')  # Adiciona a data e hora à mensagem antes de enviá-la aos clientes
+                self.broadcast(message.encode('utf-8'))  # Envia a mensagem para todos os clientes conectados
             except:  # Se ocorrer um erro (por exemplo, se o cliente desconectar)
                 index = self.clients.index(client)  # Obtém o índice do cliente na lista de clientes
                 self.clients.remove(client)  # Remove o cliente da lista de clientes
@@ -53,9 +53,8 @@ class Servidor:
             self.clients.append(client)  # Adiciona o novo cliente à lista de clientes
 
             print(f'Nickname do cliente é {nickname}!')  # Imprime o nickname do novo cliente no terminal do servidor
-            self.broadcast(f'{nickname} entrou no chat!'.encode('utf-8')) # Informa aos outros clientes que um novo cliente entrou no chat 
-            client.send('Conectado ao servidor!'.encode('utf-8'))  # Informa ao novo cliente que ele está conectado ao servidor
-
+            self.broadcast(f'{nickname} entrou no chat!'.encode('utf-8'))# Informa aos outros clientes que um novo cliente entrou no chat 
+            client.send('Conectado ao servidor!'.encode('utf-8'))
             thread = threading.Thread(target=self.handle, args=(client,))  # Cria um novo thread para lidar com a comunicação com este cliente
             thread.start()  # Inicia o novo thread
 

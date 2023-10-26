@@ -1,5 +1,6 @@
 import socket 
 import threading
+from datetime import datetime
 
 server_host = input("Escolha a rede: ")  # Solicita ao usuário que insira um nick
 nickname = input("Escolha um nickname: ")  # Solicita ao usuário que insira um nick
@@ -26,7 +27,7 @@ def write():
             client.send(message.encode('utf-8'))  # Envia a mensagem para o servidor
             client.close()  # Fecha a conexão com o servidor
             break
-        client.send(f'{nickname}: {message}'.encode('utf-8'))  # Envia a mensagem para o servidor com o nick do cliente
+        client.send(f'{datetime.now().strftime("%d/%m/%Y %H:%M:%S")} - {nickname}:  {message}'.encode('utf-8'))  # Envia a mensagem para o servidor com o nick do cliente
 
 receive_thread = threading.Thread(target=receive)  # Cria um novo thread para receber mensagens do servidor
 receive_thread.start()  # Inicia o thread de recebimento
